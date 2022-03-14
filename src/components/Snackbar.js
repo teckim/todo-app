@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { ErrorIcon, DoneIcon } from "../icons";
-import { useToast } from "../../contexts/ToastContext";
+import { ErrorIcon, DoneIcon } from "./icons";
+import { useToast } from "../contexts/ToastContext";
+import "../styles/components/snackbar.css";
 
 const Snackbar = ({ id, text, type, timeout }) => {
   const [exit, setExit] = useState(false);
@@ -15,9 +16,11 @@ const Snackbar = ({ id, text, type, timeout }) => {
     [percentage]
   );
 
-  useEffect(() => timeout && handleStartTimer(), []);
+  useEffect(() => handleStartTimer(), []);
 
   const handleStartTimer = () => {
+    if (!timeout) return;
+
     const id = setInterval(() => {
       setPercentage((prev) => {
         if (prev < 100) return prev + 0.5;
@@ -41,20 +44,10 @@ const Snackbar = ({ id, text, type, timeout }) => {
   };
 
   const snackbarClasses = clsx({
-    "ease-in-out inline-block align-bottom bg-white border border-slate-300 rounded-lg text-left overflow-hidden shadow-xl transition-all duration-150 cursor-pointer": true,
-    "-translate-y-6 opacity-0": exit,
-  });
-
-  const iconWrapperClasses = clsx({
-    "p-1 rounded-full": true,
-    "bg-green-100": type === "success",
-    "bg-red-100": type === "error",
-  });
-
-  const iconClasses = clsx({
-    "h-6 w-6": true,
-    "text-green-600": type === "success",
-    "text-red-600": type === "error",
+    "snackbar": true,
+    "snackbar--exit": exit,
+    "snackbar--success": type === "success",
+    "snackbar--error": type === "error",
   });
 
   return (
@@ -65,16 +58,16 @@ const Snackbar = ({ id, text, type, timeout }) => {
       onMouseLeave={handleStartTimer}
     >
       <div
-        className="bg-slate-200 h-1"
+        className="snackbar__progress-bar"
         style={{ width: `${percentage}%` }}
       ></div>
       <div className="bg-white px-4 py-2">
         <div className="flex items-center">
-          <div className={iconWrapperClasses}>
+          <div className="snackbar__icon-wrapper">
             {type === "success" ? (
-              <DoneIcon className={iconClasses} />
+              <DoneIcon className="snackbar__icon" />
             ) : (
-              <ErrorIcon className={iconClasses} />
+              <ErrorIcon className="snackbar__icon" />
             )}
           </div>
           <div className="ml-4">
@@ -84,6 +77,6 @@ const Snackbar = ({ id, text, type, timeout }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Snackbar;
