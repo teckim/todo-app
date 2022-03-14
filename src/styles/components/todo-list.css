@@ -1,0 +1,7 @@
+.todo-list {
+    @apply flex flex-col gap-y-4;
+}
+
+.todo-list__no-data {
+    @apply text-center text-gray-600;
+}

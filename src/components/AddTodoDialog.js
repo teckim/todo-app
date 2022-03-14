@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useDialog } from "../contexts/DialogContext";
 import { useToast } from "../contexts/ToastContext";
 import { postTodo } from "../services/todoApi";
-import { Button, Dialog } from "./elements";
+import { Button, Dialog, Input, Textarea } from "./elements";
+
+const DIALOG_ID = "ADD-TODO-DIALOG";
 
 const AddTodoDialog = ({ visible, onClose }) => {
   const [form, setForm] = useState({});
-  const { success } = useToast();
+  const { success, error } = useToast();
+  const { hideDialog, isVisibleDialog } = useDialog();
 
   const handleInputChange = ([key, value]) => {
     const data = form;
@@ -14,48 +18,50 @@ const AddTodoDialog = ({ visible, onClose }) => {
   };
 
   const handleSubmit = (event) => {
-    console.log(form);
     form.user_id = 1;
     event.preventDefault();
 
-    postTodo(form).then(({ data }) => {
-      success({ type: "Success", text: "error!", timeout: 4000 });
-    });
+    postTodo(form)
+      .then(({ data }) => {
+        handleClose();
+        success("New todo item has been added successfully.");
+      })
+      .catch(() => error("Faild to add new todo item, please try again"));
+  };
+
+  const handleClose = () => {
+    hideDialog(DIALOG_ID);
+    onClose();
   };
 
   return (
-    <Dialog open={visible} onClose={onClose}>
-      <form className="todo-form space-y-3" onSubmit={handleSubmit}>
+    <Dialog open={visible || isVisibleDialog(DIALOG_ID)} onClose={handleClose}>
+      <form className="todo-form space-y-4" onSubmit={handleSubmit}>
         <div className="text-lg">What's on your mind?</div>
         <div className="col-span-6">
-          <label
-            htmlFor="todo"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Title
-          </label>
-          <input
+          <Input
             name="todo"
             id="todo"
+            required
             placeholder="Title"
-            autoComplete="given-name"
-            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
             onChange={(e) => handleInputChange(["title", e.target.value])}
           />
         </div>
         <div className="col-span-6">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
-            About
-          </label>
+          <Input
+            name="deadline"
+            id="deadline"
+            required
+            placeholder="Before: dd-mm-yyyy"
+            onChange={(e) => handleInputChange(["deadline", e.target.value])}
+          />
+        </div>
+        <div className="col-span-6">
           <div className="mt-1">
-            <textarea
+            <Textarea
               name="description"
               rows="3"
-              placeholder="your text..."
-              className="rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="Description ..."
               onChange={(e) =>
                 handleInputChange(["description", e.target.value])
               }
@@ -70,6 +76,6 @@ const AddTodoDialog = ({ visible, onClose }) => {
       </form>
     </Dialog>
   );
-}
+};
 
 export default AddTodoDialog;

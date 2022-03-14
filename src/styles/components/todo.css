@@ -1,0 +1,53 @@
+.todo {
+  @apply relative py-2 px-4 flex gap-x-4;
+  @apply bg-white shadow hover:shadow-lg;
+  @apply border border-slate-300 rounded-md;
+  @apply transition-shadow duration-300 ease-in-out;
+}
+
+.todo:hover .todo__actions {
+  @apply visible opacity-100;
+}
+
+.todo .todo__content {
+  @apply flex-1 min-w-0;
+}
+
+.todo .todo__title {
+  @apply text-base font-medium text-gray-900;
+}
+
+.todo .todo__deadline {
+  @apply text-xs italic text-indigo-400;
+}
+
+.todo .todo__description {
+  @apply mt-2 flex gap-x-1 items-center;
+}
+
+.todo .todo__description .todo__description-text  {
+  @apply text-sm text-gray-500 truncate overflow-hidden;
+}
+
+.todo .todo__actions {
+  @apply px-0.5 py-0.5 bg-white rounded-md shadow-md;
+  @apply flex items-start gap-x-1;
+  @apply absolute right-2 -top-3.5;
+  @apply transition-opacity duration-500 ease-in-out;
+  @apply invisible opacity-0;
+}
+
+/* Done modifier */
+.todo.todo--done {
+  @apply bg-gray-50;
+}
+
+.todo.todo--done .todo__title {
+  @apply line-through decoration-pink-500 text-gray-500;
+}
+
+
+/* Expended modifier */
+.todo.todo--expanded .todo__description-text {
+  @apply whitespace-normal;
+}
