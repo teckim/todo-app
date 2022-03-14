@@ -4,32 +4,48 @@ import TodoLayout from "./components/layouts/TodoLayout";
 import AddTodoDialog from "./components/AddTodoDialog";
 import TodoList from "./components/TodoList";
 import { Button } from "./components/elements";
+import { DialogProvider, useDialog } from "./contexts/DialogContext";
 import { ToastProvider } from "./contexts/ToastContext";
+import "./styles/components/app.css";
 
 const App = () => {
   const [todos, setTodos] = useState(null);
-  const [addTodoDialogVisible, setAddTodoDialogVisible] = useState(false);
+
+  const fetchTodos = () => {
+    getTodos().then(({ data }) => setTodos(data));
+  };
 
   useEffect(() => {
-    getTodos().then(({ data }) => setTodos(data));
+    fetchTodos();
   }, []);
 
   return (
     <div className="App">
-      <ToastProvider>
-        <TodoLayout>
-          <Button block onClick={() => setAddTodoDialogVisible(true)}>
-            Add New Todo Item
-          </Button>
-          <TodoList items={todos} />
-        </TodoLayout>
+      <DialogProvider>
+        <ToastProvider>
+          <TodoLayout>
+            <AddTodoButton></AddTodoButton>
+            <div className="pt-12">
+              <TodoList items={todos} updateFn={fetchTodos} />
+            </div>
+          </TodoLayout>
 
-        <AddTodoDialog
-          visible={addTodoDialogVisible}
-          onClose={() => setAddTodoDialogVisible(false)}
-        />
-      </ToastProvider>
+          <AddTodoDialog
+            onClose={fetchTodos}
+          />
+        </ToastProvider>
+      </DialogProvider>
     </div>
+  );
+};
+
+const AddTodoButton = () => {
+  const { showDialog } = useDialog();
+
+  return (
+    <Button block onClick={() => showDialog("ADD-TODO-DIALOG")}>
+      Add New Todo Item
+    </Button>
   );
 };
 
