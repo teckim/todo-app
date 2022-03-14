@@ -1,0 +1,16 @@
+.overlay {
+  @apply fixed inset-0 z-50 overflow-auto bg-gray-600/75;
+  @apply flex justify-center items-center;
+}
+
+.dialog {
+  @apply relative px-8 mx-4 py-4 bg-white w-full max-w-md m-auto flex-col flex rounded-lg;
+}
+
+.dialog .dialog__close-button {
+  @apply absolute top-2 right-2;
+}
+
+.dialog .dialog__close-icon {
+  @apply w-4 h-4 text-red-600;
+}

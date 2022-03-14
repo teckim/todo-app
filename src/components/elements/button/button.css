@@ -1,0 +1,15 @@
+.button {
+  @apply whitespace-nowrap inline-flex items-center justify-center px-4 py-2 rounded-md shadow-md text-base font-medium;
+}
+
+.button.button--primary {
+  @apply text-white bg-indigo-600 hover:bg-indigo-700;
+}
+
+.button.button--secondary {
+  @apply text-gray-700 bg-transparent hover:bg-gray-100;
+}
+
+.button.button--block {
+  @apply w-full;
+}
