@@ -10,6 +10,7 @@ import {
   ChevronUpIcon,
   TimeIcon,
 } from "./icons";
+
 import "../styles/components/todo.css";
 
 const Todo = ({ id, done, title, description, deadline, updateFn }) => {
@@ -63,9 +64,9 @@ const Todo = ({ id, done, title, description, deadline, updateFn }) => {
         {deadline && (
           <p className="todo__deadline">before {deadline.split("T")[0]}</p>
         )}
-        <div className="todo__description">
-          <p className="todo__description-text">{description}</p>
-          {description && (
+        {description && (
+          <div className="todo__description">
+            <p className="todo__description-text">{description}</p>
             <IconButton onClick={toggleExpand}>
               {expanded ? (
                 <ChevronUpIcon className="w-4 h-4 text-indigo-600" />
@@ -73,8 +74,8 @@ const Todo = ({ id, done, title, description, deadline, updateFn }) => {
                 <ChevronDownIcon className="w-4 h-4 text-indigo-600" />
               )}
             </IconButton>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <div className="todo__actions">

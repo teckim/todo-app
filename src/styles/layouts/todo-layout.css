@@ -1,0 +1,7 @@
+.todo-layout {
+    @apply min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8;
+}
+
+.todo-layout__content {
+    @apply max-w-md w-full;
+}

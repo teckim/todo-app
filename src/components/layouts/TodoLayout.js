@@ -1,9 +1,11 @@
 import React from "react";
 
+import "../../styles/layouts/todo-layout.css"
+
 const TodoLayout = ({ children }) => {
   return (
-    <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full">{children}</div>
+    <div className="todo-layout">
+      <div className="todo-layout__content">{children}</div>
     </div>
   );
 };

@@ -44,7 +44,7 @@ const Snackbar = ({ id, text, type, timeout }) => {
   };
 
   const snackbarClasses = clsx({
-    "snackbar": true,
+    snackbar: true,
     "snackbar--exit": exit,
     "snackbar--success": type === "success",
     "snackbar--error": type === "error",
@@ -61,18 +61,16 @@ const Snackbar = ({ id, text, type, timeout }) => {
         className="snackbar__progress-bar"
         style={{ width: `${percentage}%` }}
       ></div>
-      <div className="bg-white px-4 py-2">
-        <div className="flex items-center">
-          <div className="snackbar__icon-wrapper">
-            {type === "success" ? (
-              <DoneIcon className="snackbar__icon" />
-            ) : (
-              <ErrorIcon className="snackbar__icon" />
-            )}
-          </div>
-          <div className="ml-4">
-            <p className="text-sm text-gray-500">{text}</p>
-          </div>
+      <div className="snackbar__container">
+        <div className="snackbar__icon-wrapper">
+          {type === "success" ? (
+            <DoneIcon className="snackbar__icon" />
+          ) : (
+            <ErrorIcon className="snackbar__icon" />
+          )}
+        </div>
+        <div className="ml-4">
+          <p className="text-sm text-gray-500">{text}</p>
         </div>
       </div>
     </div>
